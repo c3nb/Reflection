@@ -14,7 +14,7 @@ namespace System.Reflection.Extensions
 		{
 			string asmName = "Ref";
 			object obj = new object();
-			asmBuilder = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName($"{asmName}{IntPtrUtils.GetPointer(ref obj)}"), AssemblyBuilderAccess.Run);
+			asmBuilder = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName($"{asmName}{IntPtrUtils.GetPointerTr(ref obj)}"), AssemblyBuilderAccess.Run);
 			moduleBuilder = asmBuilder.DefineDynamicModule("Module");
 		}
 		public static Dictionary<string, OpCode> StringOpCodes = new Dictionary<string, OpCode>()
@@ -488,16 +488,12 @@ namespace System.Reflection.Extensions
 		public static bool GetCustomAttribute<T>(this MemberInfo member, out T attr, bool inherit = false) where T : Attribute
 		{
 			attr = member.GetCustomAttribute<T>(inherit);
-			if (attr == null)
-				return false;
-			return true;
+			return attr != null;
 		}
 		public static bool GetCustomAttributes<T>(this MemberInfo member, out IEnumerable<T> attrs, bool inherit = false) where T : Attribute
 		{
 			attrs = member.GetCustomAttributes<T>(inherit);
-			if (!attrs.Any())
-				return false;
-			return true;
+			return attrs.Any();
 		}
 		/// <summary>
 		/// Invokes method safe with parameter

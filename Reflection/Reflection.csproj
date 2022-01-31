@@ -63,6 +63,8 @@
     <Compile Include="System\Reflection\Extensions\SymbolExtensions.cs" />
     <Compile Include="System\Reflection\Extensions\WORD.cs" />
     <Compile Include="System\Reflection\From.cs" />
+    <Compile Include="System\Reflection\MethodAttribute.cs" />
+    <Compile Include="System\Reflection\Swap.cs" />
     <Compile Include="System\Reflection\To.cs" />
     <Compile Include="System\Reflection\Utils\AccessCache.cs" />
     <Compile Include="System\Reflection\Utils\AccessUtils.cs" />
