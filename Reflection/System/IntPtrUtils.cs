@@ -5,9 +5,9 @@ using System.Reflection;
 
 namespace System
 {
-    public static class IntPtrUtils
+    public static unsafe class IntPtrUtils
     {
-        public static unsafe IntPtr Write<T>(this IntPtr ptr, T value, int offset = 0)
+        public static IntPtr Write<T>(this IntPtr ptr, T value, int offset = 0)
         {
             // Declare Local T* (Generic Pointer)
             //ldarg.0
@@ -27,7 +27,7 @@ namespace System
             //Emit this instructions via dnspy.
             throw null;
         }
-        public static unsafe IntPtr Read<T>(this IntPtr ptr, out T value, int offset = 0)
+        public static IntPtr Read<T>(this IntPtr ptr, out T value, int offset = 0)
         {
             // Declare Local T* (Generic Pointer)
             //ldarg.0
@@ -53,7 +53,7 @@ namespace System
             Read(ptr, out T value, offset);
             return value;
         }
-        public static unsafe IntPtr WriteTr<T>(this IntPtr ptr, T value, int offset = 0)
+        public static IntPtr WriteTr<T>(this IntPtr ptr, T value, int offset = 0)
         {
             int size = Reflection.Extensions.Reflection.SizeOf<T>();
             byte* bytePtr = (byte*)(ptr + offset);
@@ -63,7 +63,7 @@ namespace System
                 bytePtr[i] = valuePtr[i];
             return (IntPtr)(bytePtr + size);
         }
-        public static unsafe IntPtr ReadTr<T>(this IntPtr ptr, out T value, int offset = 0)
+        public static IntPtr ReadTr<T>(this IntPtr ptr, out T value, int offset = 0)
         {
             int size = Reflection.Extensions.Reflection.SizeOf<T>();
             byte* bytePtr = (byte*)(ptr + offset);
@@ -81,7 +81,7 @@ namespace System
             return value;
         }
         public static IntPtr<T> Cast<T>(this IntPtr ptr) => ptr;
-        public static unsafe IntPtr GetPointer<T>(ref T obj)
+        public static IntPtr GetPointer<T>(ref T obj)
         {
             //ldarg.0
             //conv.u
@@ -89,14 +89,36 @@ namespace System
             //Emit this instructions via dnspy.
             throw null;
         }
-        public static unsafe IntPtr GetPointerTr<T>(ref T obj)
+        public static T As<T>(object value)
+        {
+            //ldarg.0
+            //ret
+            //Emit this instructions via dnspy.
+            throw null;
+        }
+        public static ref TTo As<TFrom, TTo>(ref TFrom value)
+        {
+            //ldarg.0
+            //ret
+            //Emit this instructions via dnspy.
+            throw null;
+        }
+        public static T As<T>(void* ptr)
+        {
+            //ldarg.0
+            //ldobj !!T
+            //ret
+            //Emit this instructions via dnspy.
+            throw null;
+        }
+        public static IntPtr GetPointerTr<T>(ref T obj)
         {
             TypedReference tr = __makeref(obj);
             return *(IntPtr*)&tr;
         }
-        public static unsafe IntPtr GetPointer(FieldInfo field, object instance = null)
+        public static IntPtr GetPointer(FieldInfo field, object instance = null)
             => (IntPtr)getPtr.GetGenericMethodDefinition().MakeGenericMethod(field.FieldType).Invoke(null, new object[] { field, instance });
-        internal static unsafe IntPtr GetPointer<T>(FieldInfo field, object instance = null)
+        internal static IntPtr GetPointer<T>(FieldInfo field, object instance = null)
         {
             if (cache.TryGetValue(field, out Delegate getter))
                 return GetPointer(ref ((__ValueFromFieldInfo<T>)getter)(instance));
