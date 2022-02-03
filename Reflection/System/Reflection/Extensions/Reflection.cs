@@ -478,11 +478,6 @@ namespace System.Reflection.Extensions
 				{29, OpCodes.Refanytype},
 				{30, OpCodes.Readonly},
 		};
-		public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> forEach)
-		{
-			foreach (T t in enumerable)
-				forEach(t);
-		}
 		public static T As<T>(this object obj) where T : class => obj as T ?? (T)obj;
 		public static T Cast<T>(this object obj) => (T)obj;
 		public static bool GetCustomAttribute<T>(this MemberInfo member, out T attr, bool inherit = false) where T : Attribute
